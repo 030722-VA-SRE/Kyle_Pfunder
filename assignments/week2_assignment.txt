@@ -1,0 +1,60 @@
+=== Cloud / AWS Overview =================================================================
+
+1)
+I would describe AWS as a collection of cloud based services which is utilized by using Amazon's servers. There is a wide range of services that you can access, everything from renting servers to store your data, to renting servers for utilizing virtual machines or data even use them for data processing. Cloud computing is the ability to use an instance of a virtual machine (VM) that is running on a remote server. The reason that this service is so popular today is because of how quick and easy it is to setup a server, or multiple servers, and be able to begin using them. Another reason that cloud computing is so popular is potential savings that companies can get by purchasing inexpensive workstations, which do not have a lot in terms of hardware resources (a.k.a thin clients), and utilizing those to connect to instances of VMs running on servers in the cloud.
+
+2)
+IaaS: When a company (such as Amazon) provides the necessary hardware for a company to utilize for their own infrastructure. While IaaS providers do handle the maintenance and upgrading of the hardware, they do not provide the operating systems, databases or applications that will be run on the servers.
+
+Paas: Similar to IaaS, except it does provide databases and operating system.
+
+SaaS: Provides everything, all the users need to do is use it.
+
+3)
+Availability zones are geographic areas where datacenters are located. Everyone within a specific availability zone will receive their service from the data center in that zone. A region is an made up of multiple availability zones.
+
+4)
+Yes you are charged different rates based on the service you are using, however, it is a pay as you use model. You are only charged when you use the service.
+
+=== EC2 ================================================================================
+1)
+AMI options: HVMs, Amazon Linux 2, Ubuntu 18.04, Windows Server 2019, MacOS, etc.
+
+2)
+Instance Types:
+t1.micro, t2.nano, t2.micro, t2.small, t2.medium, t2.large, t2.xlarge, t2.2xlarge, t3.nano, t3.micro, t3.small, t3.medium, t3.large,t3.xlarge, t3.2xlarge, a1.medium, a1.large, a1.xlarge,	a1.2xlarge, a1.4xlarge, a1.metal, c1.medium, c1.xlarge, c3.large, c3.xlarge, c3.2xlarge, c3.4xlarge, c3.8xlarge, c4.large, c4.xlarge, c4.2xlarge, 4.4xlarge, c4.8xlarge, c5.large, c5.xlarge, c5.2xlarge, c5.4xlarge, c5.9xlarge, c5.12xlarge, c5.18xlarge, c5.24xlarge, c5.metal, c5a.large, c5a.xlarge, c5a.2xlarge, c5a.4xlarge, c5a.8xlarge, c5a.12xlarge, c5a.16xlarge, c5a.24xlarge
+
+3)
+ssh into the instance using the .pem file and the instance url.
+
+4)
+Security group is a virtual firewall controlling inbound and outbound traffic for your instance.
+Specify Type, Source, Protocol
+
+5)
+Elasticity: The allocation/de-allocation of resources based on the systems workload.
+
+Scalability: Typically referring to the addition or subtraction of instances without impacting the system's overall performance.
+
+Resiliency: The ability for a system to maintain functionality with minimum down time.
+
+6)
+Free tier, per second billing
+
+=== RDS ================================================================================
+1)
+Relational Database Service: Provides users an easy way to create and use databases for managing their data. You rent instances on a cloud server which you access remotely. This is ideal if you do not want to have to invest the time, energy, and resources of building out your own infrastructure yourself.
+
+2)
+Oracle, PostgreSql, Microsoft SQL, MariaDB
+
+=== UNIX / LINUX =======================================================================
+1) 
+Process: An application that is running.
+
+Thread: Segments of a process, which take less time to terminate.
+
+Service: Typically provide programs an environment in which they can operate, like handling resource allocation.
+
+2)
+[ -f "example.txt" ] && rm example.txt           // deletes file if it exists
