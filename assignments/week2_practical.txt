@@ -1,0 +1,22 @@
+1) select * from employees;
+2) select from employees where salary > 75;
+3) select * from employees where firstName like '%e%' or lastName like 'S%';
+4) select firstName from employees where dept not like 'Accounting';
+5) select avg(salary from employees where lastName like '%M';
+6) select * from employees where salary = (select max(salary) from employees)
+7) 
+select * from employees where salary = (select max(salary) from employees)
+union
+select avg(salary from employees where lastName like '%M';
+8) delete from employees where dept = 'Accounting';
+9) 
+select min(salary) from employees join department on employees.dept_id = department.dept_id
+where name = 'Sales';
+10) 
+select name avg(salary) from employees
+join department on employees.dept_id = department.dept_id group by dept_id;
+11) select * from employees cross join department;
+12) update department set name = 'Quality Assurance; where dept_id = 4; 36 combinations
+13) 
+drop table employees;
+frop table department;
