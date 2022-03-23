@@ -3,27 +3,37 @@ package com.revature.models;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Item {
 
-	private int id;
+	private int itemId;
 	private String itemName;
 	private String itemType;
-	private LocalDate dateAdded;
-	private Boolean isPurchased;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
 	
-	private User userAssigned;
+	private Boolean isPurchased;
+	private int userAssigned;
 	
 	public Item() {
 		super();
 	}
-
+	
+	public Item(String itemName, String itemType, boolean isPurchased, int userAssigned) {
+		super();
 		
-	public int getId() {
-		return id;
+		this.itemName = itemName;
+		this.itemType = itemType;
+		this.isPurchased = isPurchased;
+		this.userAssigned = userAssigned;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
 	}
 
 	public String getItemName() {
@@ -42,14 +52,6 @@ public class Item {
 		this.itemType = itemType;
 	}
 
-	public LocalDate getDateAdded() {
-		return dateAdded;
-	}
-
-	public void setDateAdded(LocalDate dateAdded) {
-		this.dateAdded = dateAdded;
-	}
-
 	public Boolean getIsPurchased() {
 		return isPurchased;
 	}
@@ -58,27 +60,25 @@ public class Item {
 		this.isPurchased = isPurchased;
 	}
 
-	public User getUserAssigned() {
+	public int getUserAssigned() {
 		return userAssigned;
 	}
 
-	public void setUserAssigned(User userAssigned) {
+	public void setUserAssigned(int userAssigned) {
 		this.userAssigned = userAssigned;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", itemName=" + itemName + ", itemType=" + itemType + ", dateAdded=" + dateAdded
-				+ ", isPurchased=" + isPurchased + ", userAssigned=" + userAssigned + "]";
+		return "Item [itemId=" + itemId + ", itemName=" + itemName + ", itemType=" + itemType + ", isPurchased="
+				+ isPurchased + ", userAssigned=" + userAssigned + "]";
 	}
-
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dateAdded, id, isPurchased, itemName, itemType, userAssigned);
+		return Objects.hash(isPurchased, itemId, itemName, itemType, userAssigned);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -89,8 +89,8 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		return Objects.equals(dateAdded, other.dateAdded) && id == other.id
-				&& Objects.equals(isPurchased, other.isPurchased) && Objects.equals(itemName, other.itemName)
-				&& Objects.equals(itemType, other.itemType) && Objects.equals(userAssigned, other.userAssigned);
+		return Objects.equals(isPurchased, other.isPurchased) && itemId == other.itemId
+				&& Objects.equals(itemName, other.itemName) && Objects.equals(itemType, other.itemType)
+				&& userAssigned == other.userAssigned;
 	}
 }

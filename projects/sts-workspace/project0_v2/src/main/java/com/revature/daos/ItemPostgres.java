@@ -4,24 +4,30 @@ import com.revature.models.Item;
 import com.revature.models.User;
 import com.revature.util.ConnectionUtil;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ItemPostgres implements ItemDao{
+	
+	private static Logger log = LogManager.getLogger(ItemDao.class);
+	
+	private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+	private static LocalDateTime now = LocalDateTime.now();
 
 	@Override
 	public List<Item> getItems() {
-		String sql = "select gl.id, gl.item_name, gl.item_type, gl.date_added, gl.is_purchased\r\n"
-				   + "from grocery_list gl"
-				   + "join users u on gl.user_id = u.id;";
+		String sql = "select gl.item_id, gl.item_name, gl.item_type, gl.is_purchased, gl.user_id from grocery_list gl";
 		
 		List<Item> items = new ArrayList<>();
 		
@@ -31,21 +37,18 @@ public class ItemPostgres implements ItemDao{
 			
 			while(resSet.next()) {
 				Item item = new Item();
-				item.setId(resSet.getInt("id"));
-				item.setItemName("item_name");
+				item.setItemId(resSet.getInt("item_id"));
+				item.setItemName(resSet.getString("item_name"));
 				item.setItemType(resSet.getString("item_type"));
-				item.setDateAdded(resSet.getDate("date_added").toLocalDate());
 				item.setIsPurchased(resSet.getBoolean("is_purchased"));
-						
-				User user = new User();
-				user.setId(resSet.getInt("user_id"));
-				item.setUserAssigned(user);
+				item.setUserAssigned(resSet.getInt("user_id"));				
 				
 				items.add(item);
+				log.info(dtf.format(now) + items);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error(dtf.format(now) + e.getMessage());
 		} return items;
 	}
 
@@ -63,92 +66,82 @@ public class ItemPostgres implements ItemDao{
 			
 			while (resSet.next()) {
 				Item item = new Item();
-				item.setId(resSet.getInt("id"));
+				item.setItemId(resSet.getInt("item_id"));
 				item.setItemName(resSet.getString("item_name"));
 				item.setItemType(resSet.getString("item_type"));
-				item.setDateAdded(resSet.getDate("date_added").toLocalDate());
 				item.setIsPurchased(resSet.getBoolean("is_purchased"));
-						
-				User user = new User();
-				user.setId(resSet.getInt("user_id"));
-				item.setUserAssigned(user);
+				item.setUserAssigned(resSet.getInt("user_id"));		
 				
 				items.add(item);
+				log.info(dtf.format(now) + items);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error(dtf.format(now) + e.getMessage());
 		} return items;
 	}
 
+	public Item getItemByName(String itemName) {
+		String sql = "select from grocery_list where item_name = ?;";
+		Item item = new Item();
+		
+		try (Connection conn = ConnectionUtil.getConnectionFromEnv()) {
+			PreparedStatement prepStmt = conn.prepareStatement(sql);
+			
+			prepStmt.setString(1, itemName);
+			
+			ResultSet resSet = prepStmt.executeQuery();
+			
+			if(resSet.next()) {
+				item = new Item();
+				item.setItemId(resSet.getInt("item_id"));
+				item.setItemName(resSet.getString("item_name"));
+				item.setItemType(resSet.getString("item_type"));
+				item.setIsPurchased(resSet.getBoolean("is_purchased"));
+				item.setUserAssigned(resSet.getInt("user_id"));
+
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			log.error(dtf.format(now) + e.getMessage());
+		} return item;
+	}
+	
+	
 	@Override
-	public List<Item> getItemsByType(String type) {
+	public List<Item> getItemsByType(String itemType) {
 		String sql = "select from grocery_list where type = ?;";
 		List<Item> items = new ArrayList<>();
 		
 		try (Connection conn = ConnectionUtil.getConnectionFromEnv()) {
 			PreparedStatement prepStmt = conn.prepareStatement(sql);
 			
-			prepStmt.setString(1, type);
+			prepStmt.setString(1, itemType);
 			
 			ResultSet resSet = prepStmt.executeQuery();
 			
 			while (resSet.next()) {
 				Item item = new Item();
-				item.setId(resSet.getInt("id"));
+				item.setItemId(resSet.getInt("item_id"));
 				item.setItemName(resSet.getString("item_name"));
 				item.setItemType(resSet.getString("item_type"));
-				item.setDateAdded(resSet.getDate("date_added").toLocalDate());
 				item.setIsPurchased(resSet.getBoolean("is_purchased"));
-				
-				User user = new User();
-				user.setId(resSet.getInt("user_id"));
-				item.setUserAssigned(user);
+				item.setUserAssigned(resSet.getInt("user_id"));
 				
 				items.add(item);
+				log.info(dtf.format(now) + items);
 			}
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+			log.error(dtf.format(now) + e.getMessage());
 		} return items;
 	}
 
-	@Override
-	public List<Item> getItemsByDate(LocalDate dateAdded) {
-		String sql = "select * from grocery_list where date_added = ?;";
-		List<Item> items = new ArrayList<>();
-		
-		try (Connection conn = ConnectionUtil.getConnectionFromEnv()) {
-			PreparedStatement prepStmt = conn.prepareStatement(sql);
-			
-			prepStmt.setDate(1, Date.valueOf(dateAdded));
-			
-			ResultSet resSet = prepStmt.executeQuery();
-			
-			while (resSet.next()) {
-				Item item = new Item();
-				item.setId(resSet.getInt("id"));
-				item.setItemName(resSet.getString("item_name"));
-				item.setItemType(resSet.getString("item_type"));
-				item.setDateAdded(resSet.getDate("date_added").toLocalDate());
-				item.setIsPurchased(resSet.getBoolean("is_purchased"));
-				
-				User user = new User();
-				user.setId(resSet.getInt("id"));
-				item.setUserAssigned(user);
-				
-				items.add(item);
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} return items;
-	}
 
 	@Override
-	public List<Item> getItemsIfPurchsed(boolean isPurchased) {
+	public List<Item> getItemsIfPurchased(boolean isPurchased) {
 		String sql = "select * from grocery_list where is_purchased = ?;";
 		List<Item> items = new ArrayList<>();
 		
@@ -156,32 +149,29 @@ public class ItemPostgres implements ItemDao{
 			PreparedStatement prepStmt = conn.prepareStatement(sql);
 			
 			prepStmt.setBoolean(1, isPurchased);
-			
+						
 			ResultSet resSet = prepStmt.executeQuery();
 			
 			while (resSet.next()) {
 				Item item = new Item();
-				item.setId(resSet.getInt("id"));
+				item.setItemId(resSet.getInt("item_id"));
 				item.setItemName(resSet.getString("item_name"));
 				item.setItemType(resSet.getString("item_type"));
-				item.setDateAdded(resSet.getDate("date_added").toLocalDate());
 				item.setIsPurchased(resSet.getBoolean("is_purchased"));
-				
-				User user = new User();
-				user.setId(resSet.getInt("user_id"));
-				item.setUserAssigned(user);
-				
+				item.setUserAssigned(resSet.getInt("user_id"));
+								
 				items.add(item);
+				log.info(dtf.format(now) + items);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error(dtf.format(now) + e.getMessage());
 		} return items;
 	}
 
 	@Override
 	public int addItem(Item item) {
-		String sql = "insert into grocery_list(item_name, item_type, date_added, user_id) values(?,?,?,?);";
+		String sql = "insert into grocery_list(item_name, item_type, user_id) values(?,?,?) returning item_id;";
 		int createId = -1;
 				
 		try (Connection conn = ConnectionUtil.getConnectionFromEnv()) {
@@ -189,112 +179,91 @@ public class ItemPostgres implements ItemDao{
 
 			prepStmt.setString(1, item.getItemName());
 			prepStmt.setString(2, item.getItemType());
-			prepStmt.setDate(3, Date.valueOf(item.getDateAdded()));
-			prepStmt.setBoolean(4, item.getIsPurchased());
-			prepStmt.setInt(5, item.getUserAssigned().getId());
+			prepStmt.setInt(3, item.getUserAssigned());
 			
 			ResultSet resSet = prepStmt.executeQuery();
 			
 			if (resSet.next()) {
-				createId = resSet.getInt("id");
+				createId = resSet.getInt("item_id");
 			}
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error(dtf.format(now) + e.getMessage());
 		} return createId;
 	}
 
 	@Override
 	public Item getItemById(int id) {
-		String sql = "select * from grocery_list where id = ?;";
-		Item item = new Item();
+		String sql = "select * from grocery_list where item_id = ?;";
+		Item item = null;
 		
 		try (Connection conn = ConnectionUtil.getConnectionFromEnv()) {
 			PreparedStatement prepStmt = conn.prepareStatement(sql);
-			
+			System.out.println("testing");
 			prepStmt.setInt(1, id);
 			
 			ResultSet resSet = prepStmt.executeQuery();
 			
 			if(resSet.next()) {
 				item = new Item();
-				item.setId(resSet.getInt("id"));
-				item.setItemName("item_name");
+				item.setItemId(resSet.getInt("item_id"));
+				item.setItemName(resSet.getString("item_name"));
 				item.setItemType(resSet.getString("item_type"));
-				item.setDateAdded(resSet.getDate("date_added").toLocalDate());
 				item.setIsPurchased(resSet.getBoolean("is_purchased"));
-				
-				User user = new User();
-				user.setId(resSet.getInt("user_id"));
-				item.setUserAssigned(user);
+				item.setUserAssigned(resSet.getInt("user_id"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error(dtf.format(now) + e.getMessage());
 		} return item;
 	}
 
 	@Override
 	public boolean updateItem(Item item) {
-		String sql = "update grocery_list set item_name = ?, item_type = ?, date_added = ? is_purchased = ? where id = ?;";
-		int rowsChanged = -1;
-		
+		String sql = "update grocery_list set item_name = ?, item_type = ?, is_purchased = ?, user_id = ? where item_id = ?;";
+				
 		try (Connection conn = ConnectionUtil.getConnectionFromEnv()) {
 			PreparedStatement prepStmt = conn.prepareStatement(sql);
 			
+			System.out.println(item.getItemId() + item.getItemName() + item.getItemType() + item.getIsPurchased() + item.getUserAssigned());
+			
 			prepStmt.setString(1, item.getItemName());
 			prepStmt.setString(2, item.getItemType());
-			prepStmt.setDate(3, Date.valueOf(item.getDateAdded()));
-			prepStmt.setBoolean(4, item.getIsPurchased());
-			prepStmt.setInt(5, item.getUserAssigned().getId());
+			prepStmt.setBoolean(3, item.getIsPurchased());
+			prepStmt.setInt(4, item.getUserAssigned());
+			prepStmt.setInt(5, item.getItemId());
 			
-			rowsChanged = prepStmt.executeUpdate();				
+			int rowsChanged = prepStmt.executeUpdate();
+			
+			if (rowsChanged > 0) {
+			return true;
+			}
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} if (rowsChanged < 1) {
-			return false;
-		} return true;
-	}
+			log.error(dtf.format(now) + e.getMessage());
+			}
+		  return true;
+		}
 
+	
 	@Override
 	public boolean deleteItemById(int id) {
-		String sql = "delete from grocery_list where id = ?;";
-		int rowsChanged = -1;
+		String sql = "delete from grocery_list where item_id = ?;";
+		
 		
 		try (Connection conn = ConnectionUtil.getConnectionFromEnv()) {
 			PreparedStatement prepStmt = conn.prepareStatement(sql);
 			
 			prepStmt.setInt(1, id);
 			
-			rowsChanged = prepStmt.executeUpdate();
-			
+			int rowsChanged = prepStmt.executeUpdate();
+			if (rowsChanged < 1) {
+				return false;
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} if (rowsChanged < 1) {
-			return false;
-		} return true;
-	}
-
-	@Override
-	public boolean deleteItemByName(String itemName) {
-		String sql = "delete from grocery_list where item_name = ?;";
-		int rowsChanged = -1;
-		
-		try (Connection conn = ConnectionUtil.getConnectionFromEnv()) {
-			PreparedStatement prepStmt = conn.prepareStatement(sql);
-			
-			prepStmt.setString(1, itemName);
-			
-			rowsChanged = prepStmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} if (rowsChanged < 1) {
-			return false;
-		} return true;
+			log.error(dtf.format(now) + e.getMessage());
+		}  return true;
 	}
 }

@@ -1,0 +1,52 @@
+14:41:05.289 [JettyServerThreadPool-21] ERROR com.revature.daos.ItemDao - 03/22/2022 14:41:04The column name id was not found in this ResultSet.
+14:49:14.438 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/22/2022 14:49:13The column name id was not found in this ResultSet.
+14:50:16.363 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/22/2022 14:50:15The column index is out of range: 2, number of columns: 1.
+15:09:45.017 [JettyServerThreadPool-23] ERROR com.revature.daos.ItemDao - 03/22/2022 15:09:43ERROR: column gl.id does not exist
+  Position: 8
+15:15:24.829 [JettyServerThreadPool-21] ERROR com.revature.daos.ItemDao - 03/22/2022 15:15:23ERROR: column gl.id does not exist
+  Position: 8
+17:02:36.511 [JettyServerThreadPool-29] ERROR com.revature.daos.ItemDao - 03/22/2022 16:56:43ERROR: column "id" does not exist
+  Position: 99
+17:02:36.513 [JettyServerThreadPool-29] ERROR  - 03/22/2022 16:56:43unable to add item: Item [item_id=0, itemName=grapes, itemType=fruit, dateAdded=2022-03-22, isPurchased=false, userAssigned=User [id=1, username=null, password=null]]
+17:30:31.007 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/22/2022 17:30:29ERROR: column "id" does not exist
+  Position: 99
+17:30:31.011 [JettyServerThreadPool-28] ERROR  - 03/22/2022 17:30:29unable to add item: Item [item_id=0, itemName=grapes, itemType=fruit, dateAdded=2022-03-22, isPurchased=null, userAssigned=1]
+17:33:31.474 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/22/2022 17:33:30The column name id was not found in this ResultSet.
+17:33:31.478 [JettyServerThreadPool-28] ERROR  - 03/22/2022 17:33:30unable to add item: Item [item_id=0, itemName=grapes, itemType=fruit, dateAdded=2022-03-22, isPurchased=null, userAssigned=1]
+17:34:35.637 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/22/2022 17:34:34ERROR: duplicate key value violates unique constraint "grocery_list_item_name_key"
+  Detail: Key (item_name)=(grapes) already exists.
+17:34:35.640 [JettyServerThreadPool-28] ERROR  - 03/22/2022 17:34:34unable to add item: Item [item_id=0, itemName=grapes, itemType=fruit, dateAdded=2022-03-22, isPurchased=null, userAssigned=1]
+17:35:13.422 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/22/2022 17:35:12The column name id was not found in this ResultSet.
+17:35:13.426 [JettyServerThreadPool-28] ERROR  - 03/22/2022 17:35:12unable to add item: Item [item_id=0, itemName=apples, itemType=fruit, dateAdded=2022-03-22, isPurchased=null, userAssigned=2]
+19:46:25.811 [JettyServerThreadPool-18] ERROR  - 03/22/2022 17:59:36Item id: 10 not found
+19:46:38.840 [JettyServerThreadPool-19] ERROR  - 03/22/2022 17:59:36Item id: 10 not found
+21:36:24.907 [JettyServerThreadPool-17] ERROR  - 03/22/2022 21:35:59com.revature.exceptions.ItemNotFoundException
+21:44:00.833 [JettyServerThreadPool-31] ERROR  - 03/22/2022 21:35:59item id: 1 not found
+21:47:05.423 [JettyServerThreadPool-28] ERROR  - 03/22/2022 21:47:04item id: 1 not found
+06:43:18.868 [JettyServerThreadPool-16] ERROR com.revature.daos.ItemDao - 03/23/2022 06:43:17ERROR: syntax error at or near "is_purchased"
+  Position: 87
+06:45:29.016 [JettyServerThreadPool-19] ERROR com.revature.daos.ItemDao - 03/23/2022 06:45:02ERROR: syntax error at or near "is_purchased"
+  Position: 87
+06:52:14.679 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/23/2022 06:52:12ERROR: syntax error at or near "is_purchased"
+  Position: 73
+06:55:07.260 [JettyServerThreadPool-22] ERROR com.revature.daos.ItemDao - 03/23/2022 06:55:05ERROR: syntax error at or near "is_purchased"
+  Position: 73
+07:07:14.138 [JettyServerThreadPool-18] ERROR com.revature.daos.ItemDao - 03/23/2022 07:07:13No value specified for parameter 3.
+07:07:14.141 [JettyServerThreadPool-18] ERROR  - 03/23/2022 07:07:13unable to add item: Item [item_id=0, itemName=cookies, itemType=snacks, dateAdded=null, isPurchased=null, userAssigned=2]
+07:09:25.808 [JettyServerThreadPool-16] ERROR com.revature.daos.ItemDao - 03/23/2022 07:07:13No value specified for parameter 3.
+07:09:25.809 [JettyServerThreadPool-16] ERROR  - 03/23/2022 07:07:13unable to add item: Item [item_id=0, itemName=cookies, itemType=snacks, dateAdded=null, isPurchased=null, userAssigned=2]
+07:09:59.345 [JettyServerThreadPool-21] ERROR com.revature.daos.ItemDao - 03/23/2022 07:09:55The column index is out of range: 4, number of columns: 3.
+07:09:59.350 [JettyServerThreadPool-21] ERROR  - 03/23/2022 07:09:55unable to add item: Item [item_id=0, itemName=cookies, itemType=snacks, dateAdded=null, isPurchased=null, userAssigned=2]
+07:14:40.214 [JettyServerThreadPool-21] ERROR com.revature.daos.ItemDao - 03/23/2022 07:14:39The column index is out of range: 4, number of columns: 3.
+07:14:40.218 [JettyServerThreadPool-21] ERROR  - 03/23/2022 07:14:39unable to add item: Item [itemId=0, itemName=cookies, itemType=snacks, isPurchased=null, userAssigned=2]
+07:16:20.814 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/23/2022 07:16:19The column index is out of range: 4, number of columns: 3.
+07:16:20.818 [JettyServerThreadPool-28] ERROR  - 03/23/2022 07:16:19unable to add item: Item [itemId=0, itemName=cookies, itemType=snacks, isPurchased=null, userAssigned=2]
+07:20:45.829 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/23/2022 07:18:34The column index is out of range: 5, number of columns: 4.
+07:23:09.311 [JettyServerThreadPool-17] ERROR com.revature.daos.ItemDao - 03/23/2022 07:23:07ERROR: syntax error at or near "where"
+  Position: 76
+07:24:03.806 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/23/2022 07:24:02ERROR: syntax error at or near "where"
+  Position: 76
+07:28:31.195 [JettyServerThreadPool-28] ERROR com.revature.daos.ItemDao - 03/23/2022 07:28:29ERROR: duplicate key value violates unique constraint "grocery_list_item_name_key"
+  Detail: Key (item_name)=(apples) already exists.
+07:29:40.427 [JettyServerThreadPool-29] ERROR com.revature.daos.ItemDao - 03/23/2022 07:28:29ERROR: duplicate key value violates unique constraint "grocery_list_item_name_key"
+  Detail: Key (item_name)=(apples) already exists.
