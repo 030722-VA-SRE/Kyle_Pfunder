@@ -1,0 +1,1 @@
+insert into items (item_name, item_type, user_assigned) values ('apples', 'fruit', 1);
