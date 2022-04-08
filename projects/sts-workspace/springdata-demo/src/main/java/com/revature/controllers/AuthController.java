@@ -3,6 +3,7 @@ package com.revature.controllers;
 //import com.revature.dtos.UserDTO;
 import com.revature.services.AuthService;
 import com.revature.dtos.UserDTO;
+import com.revature.models.Role;
 
 import java.util.UUID;
 
@@ -36,9 +37,9 @@ public class AuthController {
 
 
 	@PostMapping
-	public ResponseEntity<UserDTO> login(@RequestParam("username") String username, @RequestParam("password") String password) {
+	public ResponseEntity<UserDTO> login(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("role") Role role) {
 		UserDTO principal = authServ.login(username, password);
-		
+
 		if (principal == null) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}

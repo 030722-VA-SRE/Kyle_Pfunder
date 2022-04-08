@@ -65,17 +65,18 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<String> createUser(@RequestBody User user) {
 		User newUser = userServ.createUser(user);
-		return new ResponseEntity<>("User " + newUser.getUsername() + " has been created.", HttpStatus.CREATED);
+		return new ResponseEntity<>("User: " + newUser.getUsername() + " [CREATED].", HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{userId}")
-	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("userId") int userId) {
-		return new ResponseEntity<>(userServ.updateUser(userId, user), HttpStatus.ACCEPTED);
+	public ResponseEntity<UserDTO> updateUser(@RequestBody User user, @PathVariable("userId") int userId) {
+		user.setUserId(userId);
+		return new ResponseEntity<>(userServ.updateUser(user), HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<String> DeleteById(@PathVariable("userId") int userId) {
 		userServ.deleteUser(userId);
-		return new ResponseEntity<>("User deleted.", HttpStatus.OK);
+		return new ResponseEntity<>("User: "+userId+" [DELETED]", HttpStatus.OK);
 	}
 }

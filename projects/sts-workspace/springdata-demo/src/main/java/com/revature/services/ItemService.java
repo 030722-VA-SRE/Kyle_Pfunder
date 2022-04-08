@@ -1,46 +1,55 @@
 package com.revature.services;
 
 import com.revature.dtos.UserDTO;
+import com.revature.exceptions.ItemNotFoundException;
+import com.revature.dtos.ItemDTO;
 import com.revature.models.Item;
 import com.revature.repositories.ItemRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class ItemService {
 
-	private ItemRepository itemRep;
+	private ItemRepository itemRepo;
 
 
 	@Autowired
-	public ItemService(ItemRepository itemRep) {
+	public ItemService(ItemRepository itemRepo) {
 		super();
-		this.itemRep = itemRep;
+		this.itemRepo= itemRepo;
 	}
 
 	
-	public List<Item> getItems() {
-		return itemRep.findAll();
+	public List<ItemDTO> getItems() {
+		List<Item> items = itemRepo.findAll(Sort.by(Sort.Direction.ASC,"itemId"));
+		List<ItemDTO> itemsDTO = items.stream()
+			.map((item) -> new ItemDTO(item))
+			.collect(Collectors.toList());
+		return itemsDTO;
 	}
 
-	public Item getItemId(int itemId) {
-		return itemRep.getById(itemId);
+	public ItemDTO getItemById(int itemId) {
+		Item item = itemRepo.findById(itemId).orElseThrow(ItemNotFoundException::new); 
+		return new ItemDTO(item);
 	}
 
 	@Transactional
-	public Item createItem(Item item) {
-		return itemRep.save(item);
+	public ItemDTO createItem(Item item) {
+		return new ItemDTO(itemRepo.save(item));
 	}
 
 	@Transactional
-	public Item updateItem(Item item ) {
-		Item update = itemRep.getById(item.getItemId());
+	public ItemDTO updateItem(Item item ) {
+		Item update = itemRepo.getById(item.getItemId());
 
 		if (item.getItemName() != null && !item.getItemName().equals(update.getItemName())) {
 			update.setItemName(item.getItemName());
@@ -50,12 +59,12 @@ public class ItemService {
 			update.setItemType(item.getItemType());
 		}
 		
-		return itemRep.save(update);
+		return new ItemDTO(itemRepo.save(update));
 	}
 
 	@Transactional
 	public void deleteItem(int id) {
-		Item item = itemRep.getById(id);
-		itemRep.delete(item);
+		Item item = itemRepo.getById(id);
+		itemRepo.delete(item);
 	}
 }

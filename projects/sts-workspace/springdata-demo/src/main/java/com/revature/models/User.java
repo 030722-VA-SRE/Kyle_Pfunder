@@ -33,11 +33,12 @@ public class User {
 		super();
 	}
 
-	public User(int userId, String username, String password) {
+	public User(int userId, String username, String password, String email) {
 		this();
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
+		this.email = email;
 	}
 
 

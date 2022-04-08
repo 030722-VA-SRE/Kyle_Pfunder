@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.models.Role;
 import com.revature.models.User;
 
 import com.revature.repositories.UserRepository;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class AuthService {
 
+	private Role role;
 	private UserRepository userRep;
 	private static final Logger LOG = LoggerFactory.getLogger(AuthService.class);
 
@@ -31,12 +33,12 @@ public class AuthService {
 	public UserDTO login(String username, String password) {
 		User principal = userRep.getUserByUsername(username);
 
-		if (principal == null || !principal.getPassword().equals(password)) {
+		if(principal == null || !principal.getPassword().equals(password)) {
 			throw new AuthenticationException("Attempted to login with username: " + username);
 		}
 
 		LOG.info("User " + principal.getUsername() + "'s credentials validated.");
-		return new UserDTO(principal);
+		return new UserDTO(principal);         					   // returns token [id]:[username]
 	}
 
 
@@ -44,7 +46,7 @@ public class AuthService {
 		User user = userRep.getById(principal.getUserId());
 		return user.getUserId()+":"+user.getUsername().toString();
 	}
-
+	
 
 	public void verify(String token) {
 		if (token == null) {
@@ -61,5 +63,17 @@ public class AuthService {
 
 	LOG.info("token verification: success");
 	MDC.put("userId", user.getUserId());
+	}
+
+
+	public void getAccess(User user) {
+		String[] splitEmail = user.getEmail().split("@");
+		
+		if (splitEmail[1].equals("revature.net")) {
+			user.setRole(role = Role.ADMIN);
+		}
+		else {
+			user.setRole(role = Role.USER);
+		}
 	}
 }
